@@ -3,17 +3,25 @@
 
 using namespace std;
 
-
 int main(){
-cout<<"hei"<<endl;
+  int height, width;
+  cout<<"Hello"<<endl;
+  cout << "Please enter sudoku block size, on the form:"<<endl;
+  cout << "block-height    block-width"<< endl;
+  cin >> height >> width;
 
-Board board;
-board.print();
-// for(int i = 1; i < 10; i++){
-//   board.setValue(i, i, i);
-// }
-board.fill();
+  Board board(height, width);
+  board.print();
+  board.fill();
 
-board.print();
+  board.print();
 
+  bool solved = board.solve();
+  if(solved){
+    cout << "Sudoku Solved"<< endl;
+  }else{
+    cout << "Failed to solve sudoku"<< endl;
+  }
+
+  board.print();
 }

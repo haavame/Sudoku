@@ -10,20 +10,28 @@ private:
   int maxval;
   int **board;
 
+
 public:
   int getHeight(){return height;};
   int getWidth(){return width;};
 
-  void check();
+  void getRow(int posy, std::set<int>& row);
+  void getCol(int posx, std::set<int>& col);
+  void getBlock(int posy, int posx, std::set<int>& block);
+
+  void check(int posx, int posy);
+
   bool setValue(int posy, int posx, int val);
   void fill();
   void print();
   void clear();
+
+  bool checkIfPossible(int posy, int posx, int num);
+  bool recSolve(int posy, int posx);
   bool solve();
 
-
   Board();
-  Board(int, int);
+  Board(int h, int w);
   Board(const Board &oldBoard);
   ~Board();
 };
@@ -35,7 +43,7 @@ struct unsolved{
 };
 
 
-
+void setPrint(std::set<int> myset);
 
 
 
