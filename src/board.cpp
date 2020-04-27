@@ -98,7 +98,7 @@ void Board::check(int posy, int posx){
 void Board::print(){
   for(int i = 0; i < width; i++){
     if(i%blockHeight == 0){
-      for(int k = 0; k < 2*width+blockWidth+1; k++){
+      for(int k = 0; k < 3*width+blockWidth+1; k++){
         std::cout << "-";
       }
       std::cout << std::endl;
@@ -107,19 +107,21 @@ void Board::print(){
       if(j%blockWidth == 0){
         std::cout << "|";
       }
-      std::cout << board[i][j] << " ";
+      std::cout << board[i][j];
+      if(board[i][j] < 10){
+        std::cout << " ";
+      }
+      std::cout << " ";
     }
     std::cout << "|" << std::endl;
   }
-  for(int k = 0; k < 2*width+blockWidth+1; k++){
+  for(int k = 0; k < 3*width+blockWidth+1; k++){
     std::cout << "-";
   }
   std::cout << std::endl;
 }
 
 void Board::fill(){
-  char cont = 'Y';
-  int row, col, val;
 
   // int newboard[9][9] = {{0, 0, 0, 0, 0, 3,  0, 2, 8}, {0, 2, 4, 8, 7, 1, 3, 0, 9}, {0, 8, 0, 5, 6, 0, 4, 1, 0}, {9, 0, 0, 1, 3, 0, 2, 0, 4}, {0, 0, 0, 0, 0, 0, 0, 0, 5}, {0, 0, 0, 0, 9, 4, 0, 3, 0}, {8, 0, 3, 4, 0, 0, 0, 7, 2}, {7, 1, 2, 0, 8, 0, 0, 0, 0}, {0, 4, 0, 0, 1, 7, 0, 9, 3}};
   // for(int i = 0; i < height; ++i){
@@ -128,7 +130,9 @@ void Board::fill(){
   //   }
   // }
 
+  int row, col, val;
   while(true){
+    print();
     row = 0;
     col = 0;
     val = 0;
@@ -152,7 +156,7 @@ void Board::clear(){
 }
 
 bool Board::solve(){
-/*
+
   std::vector<unsolved> allUnsolved;
 
 
@@ -170,64 +174,33 @@ bool Board::solve(){
     }
   }
 
-  int donecount = 0;
-  bool done;
-  std::set<int> used;
-  while(!allUnsolved.empty()){
-    // std::vector<unsolved>::iterator it = allUnsolved.begin();
-    // while(it != allUnsolved.end())
-    for(std::vector<unsolved>::iterator it = allUnsolved.begin(); it != allUnsolved.end(); ++it){
-      // std::cout << "solving pos ("<<it->y<<","<<it->x<<")"<<std::endl;
-      // check(it->y, it->x);
-      done = false;
-      used.clear();
-      getCol(it->x, used);
-      getRow(it->y, used);
-      getBlock(it->y, it->x, used);
+  bool done = true;
 
-      // std::cout << "used set: "<<std::endl;
-      // setPrint(used);
+  while(done){
+    for(std::vector<unsolved>::iterator it = allUnsolved.begin(); it != allUnsolved.end(); ++it){
+      done = false;
 
       for(int i = 1; i <= maxval; ++i){
-        if(used.find(i) == used.end()){
+        if(checkIfPossible(it->y, it->x, i)){
           it->possible.insert(i);
         }
       }
-      // std::cout<<"possible numbers: ";
-      // setPrint(it->possible);
 
       unsigned int size = it->possible.size();
 
       if(size == 0){
-        std::cout << "Error, no possible numbers in position ("<<it->y<<","<<it->x<<")!"<<std::endl;
         return false;
       }else if(size == 1){
         done = true;
         std::set<int>::iterator iter = it->possible.begin();
         board[it->y][it->x] = *iter;
         allUnsolved.erase(it);
-        print();
-      }else{
-        // ++it;
       }
 
     }
-    // if(!done){
-    //   ++donecount;
-    // }else{
-    //   donecount = 0;
-    // }
-    // if(allUnsolved.empty()){
-    //   return true;
-    // }else{
-    //   return false;
-    // }
-  }
-  // for(std::vector<unsolved>::iterator it = allUnsolved.begin(); it != allUnsolved.end(); ++it){
-  //   // std::pair <std::set<int>::iterator, bool> dontcare;
-  // }
 
-*/
+  }
+
 return recSolve(0, 0);
 
 }

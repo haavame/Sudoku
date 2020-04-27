@@ -11,7 +11,6 @@ int main(){
   cin >> height >> width;
 
   Board board(height, width);
-  board.print();
   board.fill();
 
   board.print();
