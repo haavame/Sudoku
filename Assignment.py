@@ -321,10 +321,13 @@ def print_sudoku_solution(solution):
 
 
 def main():
-    csp = create_sudoku_csp("medium.txt")
+    board_name = "medium"
 
+    csp = create_sudoku_csp(board_name + ".txt")
+
+    print("Solution for ", board_name, "board: \n")
     print_sudoku_solution(csp.backtracking_search())
-    print("total backtrack() calls: ", csp.backtrack_calls)
+    print("\ntotal backtrack() calls: ", csp.backtrack_calls)
     print("failed backtrack() calls: ", csp.failed_backtrack_calls)
 
 main()
